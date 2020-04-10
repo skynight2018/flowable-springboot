@@ -1,0 +1,147 @@
+
+Assignee: 任务的受理人，即执行人。它有两种情况（有值,NULL)
+
+Owner: 任务的委托人。
+
+CandidateGroup: 候选用户组
+
+CandidateUser: 候选人
+
+delegateTask: 委派任务/签收的任务
+
+resolveTask:  委派任务的代办，任务的拥有者把任务委派他人来办理，他人办完后，又重新回到任务拥有者，会产生流转记录。
+
+turnTask： 转办任务，只是改变当前任务的办理人而已，不会产生流转记录。
+
+CompleteTask: 完成任务，或叫办结提交下一步。
+
+claimTask：任务签收
+
+(1)xml流程模型中直接设置固定死的用户id或者用户账号，例如：
+
+      <userTask id="usertask1" name="审批"  flowable:assignee="userId2"></userTask>
+
+      也可以配置成候选人或者候选组方式。
+
+ (2)任务节点上设置流程变量，这个流程变量的值由上一个节点来设置，例如：
+
+      <userTask id="usertask1" name="审批" flowable:assignee="#{userId}"></userTask>
+
+ (3)自定义一个监听类，实现TaskListener接口，细节查看如何定义监听器类及配置到流程模型xml中相关章节。
+
+四、候选人和候选组的配置：
+
+<userTask id="usertask2" name="部门经理审批" flowable:candidateGroups="group1,group2"></userTask>
+
+<userTask id="usertask2" name="部门经理审批" flowable:candidateUsers="user1,user2"></userTask>
+
+
+
+内容引擎包含的服务有：
+
+ContentManagementService
+
+ContentManagementService提供对数据库表的管理操作，包括：
+
+Map<String, Long> getTableCount() 获取每个表的记录数量；
+String getTableName(Class<?> flowableEntityClass); 根据实体类获得对应的数据库表名；
+TableMetaData getTableMetaData(String tableName); 根据数据库表名获得表的列名和列类型；
+TablePageQuery createTablePageQuery(); 创建一个可以进行排序、根据条件分页的查询类。
+ContentService
+
+实现对内容的创建、删除、保存和获取的基本操作。
+
+ ContentItem newContentItem();
+
+void saveContentItem(ContentItem contentItem);
+
+void saveContentItem(ContentItem contentItem, InputStream inputStream);
+
+InputStream getContentItemData(String contentItemId);
+
+void deleteContentItem(String contentItemId);
+
+void deleteContentItemsByProcessInstanceId(String processInstanceId);
+
+void deleteContentItemsByTaskId(String taskId);
+
+ContentItemQuery createContentItemQuery();
+
+ContentEngineConfiguration
+
+ContentEngineConfiguration最主要的作用是提供Mybatis的封装，实现数据库相关配置的获取。
+
+同时，内容引擎配置还提供了操作系统级的文件操作的路径设置、文件读取、文件保存的功能。
+
+2、身份识别引擎 IdmEngine
+身份识别引擎包含的服务有：
+
+IdmIdentityService
+
+提供用户的创建、修改、删除、密码修改、登录、用户头像设置等；
+提供组Group的创建、删除、用户与组关系的关联、删除关联；
+提供权限的创建、删除、关联等。
+
+IdmManagementService
+
+对身份识别相关的数据库表进行统计、获取表的列信息。
+
+IdmEngineConfiguration
+
+提供数据库配置信息。
+
+3、表单引擎 FormEngine
+表单引擎包含的服务有：
+
+FormManagementService
+FormRepositoryService
+FormService
+FormEngineConfiguration
+4、决策引擎 DmnEngine
+决策引擎包含的服务有：
+
+DmnManagementService
+DmnRepositoryService
+DmnRuleService
+DmnHistoryService
+DmnEngineConfiguration
+5、流程引擎 ProcessEngine
+流程引擎包含的服务有：
+
+RepositoryService
+RuntimeService
+HistoryService
+IdentityService
+TaskService
+FormService
+ManagementService
+DynamicBpmnService
+
+
+
+数据表
+
+描述
+https://blog.csdn.net/zhongzk69/article/details/90944593?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
+
+
+
+流程各个状态查询
+https://blog.csdn.net/zhongzk69/article/details/90738369?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
